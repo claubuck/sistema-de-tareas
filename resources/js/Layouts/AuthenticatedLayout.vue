@@ -35,6 +35,13 @@ const showingNavigationDropdown = ref(false);
                 >
                   Dashboard
                 </NavLink>
+
+                <NavLink
+                  :href="route('tasks.index')"
+                  :active="route().current('tasks.index')"
+                >
+                  Calendario
+                </NavLink>
               </div>
             </div>
 
@@ -174,7 +181,7 @@ const showingNavigationDropdown = ref(false);
       <!-- Page Content -->
       <main>
         <div
-          v-if="$page.props.flash.message"
+        v-if="$page.props.flash.message"
           class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md"
           role="alert"
         >
@@ -191,10 +198,8 @@ const showingNavigationDropdown = ref(false);
               </svg>
             </div>
             <div>
-              <p class="font-bold">Our privacy policy has changed</p>
-              <p class="text-sm">
-                Make sure you know how these changes affect you.
-              </p>
+              <p class="font-bold">{{ $page.props.flash.message }}</p>
+
             </div>
           </div>
         </div>
