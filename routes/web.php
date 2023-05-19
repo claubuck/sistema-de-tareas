@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,6 +35,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    Route::resource('tasks',TaskController::class)->names('tasks');
+    Route::get('/task-calendar', [TaskController::class, 'calendar'])->name('task-calendar');
+    Route::get('/task-list', [TaskController::class, 'listing']);
+
+    Route::resource('tags',TagController::class)->names('tags');
 });
 
 require __DIR__.'/auth.php';
