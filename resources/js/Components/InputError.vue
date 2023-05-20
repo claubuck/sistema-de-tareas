@@ -1,9 +1,12 @@
-<script setup>
-defineProps({
+<script>
+export default {
+  props: {
     message: {
-        type: String,
+      type: String,
+      default: '',
     },
-});
+  },
+};
 </script>
 
 <template>

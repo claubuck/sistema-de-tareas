@@ -31,6 +31,9 @@ export default {
     deleteTask() {
         router.delete(route('tasks.destroy', this.task.id));
     },
+    backTask() {
+        router.get(route('dashboard'));
+    },
     confirmDeleteTask() {
       if (window.confirm('¿Estás seguro de eliminar esta tarea?')) {
         this.deleteTask();
@@ -53,17 +56,23 @@ export default {
               <p class="mb-2">Estado: {{ task.status }}</p>
 
               <div class="flex mt-4">
-                <button
+                <button v-if="task.status !== 'Completada'"
                   class="mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                   @click="editTask"
                 >
                   Editar
                 </button>
                 <button
-                  class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  class="mr-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                   @click="confirmDeleteTask"
                 >
                   Eliminar
+                </button>
+                <button
+                  class="mr-2 bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  @click="backTask"
+                >
+                  Volver a tras
                 </button>
               </div>
             </div>

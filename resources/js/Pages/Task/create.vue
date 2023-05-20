@@ -1,11 +1,21 @@
 <script>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
+import InputError from '@/Components/InputError.vue';
 export default {
   components: {
     AuthenticatedLayout,
     Head,
+    InputError,
   },
+
+  props: {
+    tagOptions: {
+      type: Array,
+      required: true,
+    },
+  },
+
   data() {
     return {
       form: {
@@ -13,26 +23,49 @@ export default {
         description: "",
         venciment: "",
         tags: [],
+        errors: {},
       },
-      tagOptions: ["Tag 1", "Tag 2", "Tag 3"], // Opciones de etiquetas disponibles
-      tagInput: "", // Valor del campo de entrada para etiquetas
+      tagInput: "",
       isTagDropdownVisible: false,
+
     };
   },
+
+
   methods: {
+
     submitForm() {
-      this.$inertia.post(route("tasks.store"), this.form);
-    },
+  return new Promise((resolve, reject) => {
+    this.$inertia.post(route("tasks.store"), this.form, {
+      preserveState: true,
+      onSuccess: () => resolve(),
+      onError: (error) => reject(error),
+    });
+  })
+    .then(() => {
+      this.form.errors = {};
+    })
+    .catch((error) => {
+       
+        this.form.errors = error;
+    });
+},
+
+
 
     handleTagInput() {
-      // Mostrar el menú desplegable de etiquetas si hay texto en el campo de entrada
       this.isTagDropdownVisible = this.tagInput.length > 0;
     },
 
     addTag() {
       const tag = this.tagInput.trim();
-      if (tag && !this.form.tags.includes(tag)) {
-        this.form.tags.push(tag);
+      if (tag) {
+        const selectedTag = this.tagOptions.find(
+          (option) => option.name === tag
+        );
+        if (selectedTag && !this.form.tags.includes(selectedTag.id)) {
+          this.form.tags.push(selectedTag.id);
+        }
       }
       this.tagInput = "";
       this.isTagDropdownVisible = false;
@@ -43,8 +76,13 @@ export default {
     },
 
     selectTag(tag) {
-      this.tagInput = tag;
+      this.tagInput = tag.name;
       this.addTag();
+    },
+
+    getTagName(tagId) {
+      const tag = this.tagOptions.find((option) => option.id === tagId);
+      return tag ? tag.name : "";
     },
   },
 };
@@ -67,6 +105,7 @@ export default {
                   v-model="form.title"
                   class="w-full px-4 py-2 border border-gray-300 rounded"
                 />
+                <InputError class="mt-2" :message="form.errors.title" />
               </div>
 
               <div class="my-4">
@@ -78,6 +117,7 @@ export default {
                   v-model="form.description"
                   class="w-full px-4 py-2 border border-gray-300 rounded"
                 ></textarea>
+                <InputError class="mt-2" :message="form.errors.description" />
               </div>
 
               <div class="my-4">
@@ -90,44 +130,49 @@ export default {
                   v-model="form.venciment"
                   class="w-full px-4 py-2 border border-gray-300 rounded"
                 />
+                <InputError class="mt-2" :message="form.errors.venciment" />
               </div>
-
-              <!-- <div class="my-4">
-                <label for="tag" class="block font-semibold"
-                  >Etiquetas:</label
-                >
-                <select
-                  id="countries"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                >
-                  <option selected>Agrega etiquetas a tu nueva tarea</option>
-                  <option value="US">United States</option>
-                  <option value="CA">Canada</option>
-                  <option value="FR">France</option>
-                  <option value="DE">Germany</option>
-                </select>
-              </div> -->
 
               <div class="my-4">
                 <label class="block font-semibold">Etiquetas:</label>
-                <div class="relative">
-                  <input
-                    type="text"
-                    v-model="tagInput"
-                    @input="handleTagInput"
-                    @keydown.enter.prevent="addTag"
-                    class="w-full px-4 py-2 border border-gray-300 rounded"
-                    placeholder="Escribe una etiqueta y presiona Enter"
-                  />
-                  <ul class="absolute z-10 w-full bg-white shadow-md py-2 mt-1" v-show="isTagDropdownVisible">
-                    <li v-for="tag in tagOptions" :key="tag" @click="selectTag(tag)" class="px-4 py-2 cursor-pointer hover:bg-gray-100">
-                      {{ tag }}
-                    </li>
-                  </ul>
+                <div class="flex">
+                  <div class="relative">
+                    <input
+                      type="text"
+                      v-model="tagInput"
+                      @input="handleTagInput"
+                      @keydown.enter.prevent="addTag"
+                      class="w-full px-4 py-2 border border-gray-300 rounded"
+                      placeholder="Escribe una etiqueta y presiona Enter"
+                    />
+                    <ul
+                      class="absolute z-10 w-full bg-white shadow-md py-2 mt-1"
+                      v-show="isTagDropdownVisible"
+                    >
+                      <li
+                        v-for="tag in tagOptions"
+                        :key="tag.id"
+                        @click="selectTag(tag)"
+                        class="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                      >
+                        {{ tag.name }}
+                      </li>
+                    </ul>
+                  </div>
+                  <a
+                    class="inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+                    :href="route('tags.create')"
+                  >
+                    Crear una nueva etiqueta
+                  </a>
                 </div>
                 <ul class="mt-2">
-                  <li v-for="(tag, index) in form.tags" :key="index" class="inline-block bg-blue-500 text-white rounded px-2 py-1 mr-2">
-                    {{ tag }}
+                  <li
+                    v-for="(tagId, index) in form.tags"
+                    :key="index"
+                    class="inline-block bg-blue-500 text-white rounded px-2 py-1 mr-2"
+                  >
+                    {{ getTagName(tagId) }}
                     <button class="ml-1" @click="removeTag(index)">x</button>
                   </li>
                 </ul>

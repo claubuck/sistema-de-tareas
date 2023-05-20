@@ -1,9 +1,11 @@
 <script>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
+import InputError from "@/Components/InputError.vue";
 export default {
-    components: {
+  components: {
     AuthenticatedLayout,
+    InputError,
     Head,
   },
   props: {
@@ -18,6 +20,7 @@ export default {
         title: "",
         description: "",
         venciment: "",
+        errors: {},
       },
     };
   },
@@ -32,8 +35,24 @@ export default {
       this.form.venciment = this.task.venciment;
     },
     submitForm() {
-      // Enviar la solicitud de actualización de la tarea
-      this.$inertia.put(route("tasks.update", { task: this.task.id }), this.form);
+      return new Promise((resolve, reject) => {
+        this.$inertia.put(
+          route("tasks.update", { task: this.task.id }),
+          this.form,
+          {
+            preserveState: true,
+            onSuccess: () => resolve(),
+            onError: (error) => reject(error),
+          }
+        );
+      })
+        .then(() => {
+          this.form.errors = {};
+        })
+        .catch((error) => {
+          this.form.errors = error;
+          console.log(this.form.errors);
+        });
     },
   },
 };
@@ -56,6 +75,7 @@ export default {
                   v-model="form.title"
                   class="w-full px-4 py-2 border border-gray-300 rounded"
                 />
+                <InputError class="mt-2" :message="form.errors.title" />
               </div>
 
               <div class="my-4">
@@ -67,6 +87,7 @@ export default {
                   v-model="form.description"
                   class="w-full px-4 py-2 border border-gray-300 rounded"
                 ></textarea>
+                <InputError class="mt-2" :message="form.errors.description" />
               </div>
 
               <div class="my-4">
@@ -79,6 +100,7 @@ export default {
                   v-model="form.venciment"
                   class="w-full px-4 py-2 border border-gray-300 rounded"
                 />
+                <InputError class="mt-2" :message="form.errors.venciment" />
               </div>
 
               <button

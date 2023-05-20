@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use App\Http\Requests\StoreTagRequest;
 use App\Http\Requests\UpdateTagRequest;
+use Inertia\Inertia;
 
 class TagController extends Controller
 {
@@ -21,15 +22,23 @@ class TagController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Tag/create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreTagRequest $request)
-    {
-        //
+    { 
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255|min:2',
+        ]);
+        $tag = new Tag();
+        $tag->create([
+            'name' => $validatedData['name'],
+        ]);
+
+        return back()->with('message', 'Etiqueta creada correctamente');
     }
 
     /**
@@ -62,5 +71,12 @@ class TagController extends Controller
     public function destroy(Tag $tag)
     {
         //
+    }
+
+    public function listing()
+    {
+        return response()->json([
+            'tags' => Tag::get(),
+        ]);
     }
 }

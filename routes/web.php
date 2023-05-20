@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/task-list', [TaskController::class, 'listing']);
 
     Route::resource('tags',TagController::class)->names('tags');
+    Route::get('/tag-list', [TagController::class, 'listing']);
 });
 
 require __DIR__.'/auth.php';
