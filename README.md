@@ -1,85 +1,63 @@
-<!DOCTYPE html>
-<html>
+<p align="center">
+  <a href="https://laravel.com" target="_blank">
+    <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo">
+  </a>
+</p>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Nombre de la Aplicación</title>
-</head>
+<p align="center">
+  <a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+  <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+  <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+  <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-<body>
-    <h1>Reto tecnico</h1>
+# Reto tecnico
+Sistema de gestion de tareas
 
-    <p>Laravel 10 + Vue 3 + tailwind</p>
+Laravel 10 + Vue 3 + Tailwind css
 
-    <h2>Requisitos Previos</h2>
+## Requisitos Previos
 
-    <p>Asegúrate de tener instalados los siguientes requisitos previos antes de continuar:</p>
+Asegúrate de tener instalados los siguientes requisitos previos antes de continuar:
 
-    <ul>
-        <li>PHP >= 8</li>
-        <li>Composer</li>
-        <li>MySQL o cualquier otro sistema de gestión de bases de datos compatible</li>
-        <li>Git</li>
-    </ul>
+- PHP >= 8
+- Composer
+- Node
+- MySQL o cualquier otro sistema de gestión de bases de datos compatible
+- Git
 
-    <h2>Clonar el Repositorio</h2>
+## Clonar el Repositorio
 
-    <ol>
-        <li>Abre una terminal o línea de comandos en tu máquina local.</li>
-        <li>Navega hasta el directorio donde deseas clonar el repositorio.</li>
-        <li>Ejecuta el siguiente comando para clonar el repositorio:</li>
-    </ol>
+1. Abre una terminal o línea de comandos en tu máquina local.
+2. Navega hasta el directorio donde deseas clonar el repositorio.
+3. Ejecuta el siguiente comando para clonar el repositorio:
 
-    <pre><code>git clone &lt;URL del repositorio&gt;</code></pre>
 
-    <p>Una vez completado, navega al directorio de la aplicación:</p>
+git clone <URL del repositorio>
 
-    <pre><code>cd nombre-de-la-aplicacion</code></pre>
 
-    <h2>Instalar Dependencias</h2>
 
-    <ol>
-        <li>Asegúrate de estar en el directorio raíz de la aplicación.</li>
-        <li>Ejecuta el siguiente comando para instalar las dependencias de Composer:</li>
-    </ol>
+## Instalar dependencias
 
-    <pre><code>composer install</code></pre>
+1. Asegúrate de estar en el directorio raíz de la aplicación.
+2. Ejecuta el siguiente comando para instalar las dependencias de Composer:
 
-    <h2>Configurar el Entorno</h2>
+composer install
 
-    <ol>
-        <li>Copia el archivo <code>.env.example</code> y renómbralo como <code>.env</code>.</li>
-        <li>Abre el archivo <code>.env</code> y configura las variables de entorno, como la conexión a la base de datos y las credenciales del servicio de correo electrónico.</li>
-        <li>Genera una nueva clave de aplicación ejecutando el siguiente comando:</li>
-    </ol>
+## Configurar el Entorno
+1. Copia el archivo .env.example y renómbralo como .env.
+2. Abre el archivo .env y configura las variables de entorno, como la conexión a la base de datos y las credenciales del servicio de 3. correo electrónico.
+4. Genera una nueva clave de aplicación ejecutando el siguiente comando:
 
-    <pre><code>php artisan key:generate</code></pre>
+## Ejecutar Migraciones y Semillas
 
-    <h2>Ejecutar Migraciones y Semillas</h2>
+php artisan migrate --seed
 
-    <ol>
-        <li>Ejecuta las migraciones para configurar la base de datos ejecutando el siguiente comando:</li>
-    </ol>
+## Iniciar Node
 
-    <pre><code>php artisan migrate</code></pre>
+npm run dev
 
-    <ol start="2">
-        <li>Si la aplicación utiliza semillas (seeds) para generar datos de prueba, ejecuta el siguiente comando:</li>
-    </ol>
+## Iniciar el Servidor
+- Para iniciar el servidor de desarrollo de Laravel, ejecuta el siguiente comando:
 
-    <pre><code>php artisan db:seed</code></pre>
-
-    <h2>Iniciar el Servidor</h2>
-
-    <ol>
-        <li>Para iniciar el servidor de desarrollo de Laravel, ejecuta el siguiente comando:</li>
-    </ol>
-
-    <pre><code>php artisan serve</code></pre>
-
-    <p>Ahora puedes acceder a la aplicación en tu navegador web utilizando la URL proporcionada por el servidor de desarrollo.</p>
-
-    <h2>Contribución</h2>
-
-    <p>Si deseas contribuir a este proyecto, sigue los siguientes pasos:</p>
-
+php artisan serv
