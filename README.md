@@ -16,6 +16,10 @@ Sistema de gestion de tareas
 
 Laravel 10 + Vue 3 + Tailwind css
 
+Se puede ingresar con 
+usuario: admin@gmail.com 
+contraseña: 123
+
 ## Requisitos Previos
 
 Asegúrate de tener instalados los siguientes requisitos previos antes de continuar:
